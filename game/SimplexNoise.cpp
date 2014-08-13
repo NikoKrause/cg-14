@@ -1,7 +1,13 @@
 #include "SimplexNoise.hpp"
 
-#include <math.h>
+
+#include <math.h>       /* sqrt */
 #include <vector>
+#include <stdlib.h>     /* srand, rand */
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <time.h>       /* time */
+
+
 using namespace std;
 
 #include <iostream>
@@ -30,6 +36,10 @@ double SimplexNoise::noise(double m_xin, double m_yin) {
   	251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
   	49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
   	138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
+    // Random Seed
+    // srand(time(0) + clock() + random());              /* Zufallsgenerator initialisieren */
+    // int m_seed = rand() % 512;
+
   	// To remove the need for index wrapping, double the permutation table length
   	vector<short> m_perm(512);
   	vector<short> m_permMod12(512);
@@ -75,9 +85,6 @@ double SimplexNoise::noise(double m_xin, double m_yin) {
     int m_gi0 = m_permMod12[m_ii + m_perm[m_jj]];
     int m_gi1 = m_permMod12[m_ii + m_i1 + m_perm[m_jj + m_j1]];
     int m_gi2 = m_permMod12[m_ii + 1 + m_perm[m_jj + 1]];
-
-    // cout << m_gi0 << m_gi1 << m_gi2 << endl;
-    cout << m_perm[m_jj] << endl;
     // Calculate the contribution from the three corners
     double m_t0 = 0.5 - m_x0 * m_x0 - m_y0 * m_y0;
     if(m_t0 < 0) {

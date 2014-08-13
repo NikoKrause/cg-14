@@ -6,7 +6,8 @@
 #include "Chunk.hpp"
 #include "Map.hpp"
 #include <random>
-#include <math.h>
+#include <math.h>		
+/* sqrt */
 
 
 using namespace std;
@@ -18,6 +19,7 @@ ChunkGenerator::ChunkGenerator() {
   // m_seed = (1.0 - ((m_seed*(m_seed*m_seed*15731+789221)+1376312589)&0x7fffffff)/1073741824.0);
   m_seed = 42;
   m_octave = 3;
+
   mt19937 rng(m_seed);
 }
 
@@ -31,9 +33,19 @@ void ChunkGenerator::chunkGeneration(Map& m, Vec3i spectator_pos) {
         for(int i = x * 16; i < (x * 16) + 16; i++) {
           // Blöcke von oben nach unten (in Blockkoordinaten)
           for(int j = z * 16; j < (z * 16) + 16; j++) {
-            //double noise2 = SimplexNoise::noise(i, j); // Perlin Noise berechnen
-            //int noise = (int) (noise2*64 + 64);
-            int noise = perlinNoise(i, j); // Perlin Noise berechnen
+          	// Berechne Werte im Intervall [-1,1] mit Simplex Noise
+          	double m_frequency = 0.1;
+          	double simpNoise = SimplexNoise::noise( m_frequency * i, m_frequency * j);
+          	// Umrechnen von Intervall [a,b] in Intervall [c,d]
+          	int m_a = -1;
+          	int m_b = 1;
+          	int m_c = 74;
+          	int m_d = 78;
+          	simpNoise = ((m_d * simpNoise - m_c * simpNoise + m_b * m_c - m_d * m_a) / (m_b - m_a));
+          	
+          	// Caste simpNoise als Integer
+          	int noise = (int) (simpNoise + 0.5);
+
             // auffüllen:
             for(int k = 0; k < 128; k++) {
               if(k == noise) {
