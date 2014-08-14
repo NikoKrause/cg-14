@@ -17,7 +17,11 @@ using namespace std;
 ChunkGenerator::ChunkGenerator() {
   // m_seed = (42<<13)^42;
   // m_seed = (1.0 - ((m_seed*(m_seed*m_seed*15731+789221)+1376312589)&0x7fffffff)/1073741824.0);
-  m_seed = 42;
+    
+  // Random Seed
+  srand(time(0) + clock() + random());              /* Zufallsgenerator initialisieren */
+  m_seed = rand() % 512;
+  // m_seed = 0;
   m_octave = 3;
 
   mt19937 rng(m_seed);
@@ -34,8 +38,8 @@ void ChunkGenerator::chunkGeneration(Map& m, Vec3i spectator_pos) {
           // Blöcke von oben nach unten (in Blockkoordinaten)
           for(int j = z * 16; j < (z * 16) + 16; j++) {
           	// Berechne Werte im Intervall [-1,1] mit Simplex Noise
-          	double m_frequency = 0.1;
-          	double simpNoise = SimplexNoise::noise( m_frequency * i, m_frequency * j);
+          	double m_frequency = 0.075;
+          	double simpNoise = SimplexNoise::noise(m_frequency * i, m_frequency * j, m_seed);
           	// Umrechnen von Intervall [a,b] in Intervall [c,d]
           	int m_a = -1;
           	int m_b = 1;

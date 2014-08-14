@@ -99,19 +99,22 @@ void CraftGame::run(lumina::HotRenderContext& hotContext) {
 
         Chunk& currentChunk = m_map.getChunk(Vec2i(0, 0));
         ChunkView cV1(currentChunk, Vec2i(0, 0));
-
         cV1.draw(hot);
+
+        currentChunk = m_map.getChunk(Vec2i(-1, 0));
         ChunkView cV2(currentChunk, Vec2i(-1, 0));
-
         cV2.draw(hot);
+
+        currentChunk = m_map.getChunk(Vec2i(1, 0));
         ChunkView cV3(currentChunk, Vec2i(1, 0));
-
         cV3.draw(hot);
+
+        currentChunk = m_map.getChunk(Vec2i(0, -1));
         ChunkView cV4(currentChunk, Vec2i(0, -1));
-
         cV4.draw(hot);
-        ChunkView cV5(currentChunk, Vec2i(0, 1));
 
+        currentChunk = m_map.getChunk(Vec2i(0, 1));
+        ChunkView cV5(currentChunk, Vec2i(0, 1));
         cV5.draw(hot);
 
         /*        ChunkView cV6(currentChunk, Vec2i(1, 1));

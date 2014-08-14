@@ -14,7 +14,7 @@ using namespace std;
 
 
 
-double SimplexNoise::noise(double m_xin, double m_yin) {
+double SimplexNoise::noise(double m_xin, double m_yin, int m_seed) {
 	// Skewing and unskewing factors for dimensions
 	const double m_F2 = 0.5 * (sqrt(3.0) - 1.0);
 	const double m_G2 = (3.0 - sqrt(3.0)) / 6.0;
@@ -36,15 +36,12 @@ double SimplexNoise::noise(double m_xin, double m_yin) {
   	251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
   	49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
   	138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
-    // Random Seed
-    // srand(time(0) + clock() + random());              /* Zufallsgenerator initialisieren */
-    // int m_seed = rand() % 512;
 
   	// To remove the need for index wrapping, double the permutation table length
   	vector<short> m_perm(512);
   	vector<short> m_permMod12(512);
   	for(int i = 0; i < 512; i++) {
-  		m_perm[i] = m_p[i & 255];
+  		m_perm[i] = m_p[(i + m_seed) & 255];
   		m_permMod12[i] = (short)(m_perm[i] % 12);
   	}
 
